@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerRunState : PlayerGroundedState
 {
@@ -9,6 +8,8 @@ public class PlayerRunState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+        
+        BehaviourContext.Rigidbody.linearVelocityX = 0;
 
         BehaviourContext.Animator.SetBool(AnimatorHashes.Running, true);
     }
@@ -24,7 +25,7 @@ public class PlayerRunState : PlayerGroundedState
     {
         base.FixedUpdate();
         
-        if (Math.Abs(BehaviourContext.Rigidbody.linearVelocityX) < MovementThreshold)
+        if (Mathf.Abs(BehaviourContext.Rigidbody.linearVelocityX) < MovementThreshold)
         {
             StateMachine.ChangeState<PlayerIdleState>();
         }

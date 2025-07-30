@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
         
-        inputContext = new InputContext(Vector2.zero, false, true);
+        inputContext = new InputContext(Vector2.zero, false,true);
         
         InitializeStateMachine();
     }
@@ -41,7 +41,8 @@ public class Player : MonoBehaviour
     private void Update()
     {
         inputContext.MoveInput = moveAction.ReadValue<Vector2>();
-        inputContext.JumpPerformed = jumpAction.phase == InputActionPhase.Performed;
+        
+        inputContext.JumpPressed = jumpAction.WasPressedThisFrame();
         
         stateMachine.CurrentState?.Update();
     }

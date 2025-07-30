@@ -1,5 +1,7 @@
 ﻿public class PlayerState : State
 {
+    protected const float MovementThreshold = 0.01f;
+    
     protected MonoBehaviourContext BehaviourContext { get; }
     protected InputContext InputContext { get; }
     protected PlayerData PlayerData { get; }
@@ -15,6 +17,5 @@
     public override void FixedUpdate()
     {
         BehaviourContext.Animator.SetBool(AnimatorHashes.Grounded, InputContext.Grounded);
-        BehaviourContext.Animator.SetFloat(AnimatorHashes.yVelocity, BehaviourContext.Rigidbody.linearVelocityY);
     }
 }

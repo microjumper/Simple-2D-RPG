@@ -1,4 +1,4 @@
-﻿using System;
+﻿using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundedState
 {
@@ -23,7 +23,7 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.FixedUpdate();
         
-        if (Math.Abs(BehaviourContext.Rigidbody.linearVelocity.x) > MovementThreshold)
+        if (Mathf.Abs(BehaviourContext.Rigidbody.linearVelocity.x) > MovementThreshold)
         {
             StateMachine.ChangeState<PlayerRunState>();
         }

@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b218e07bcfd259e4cb1796c9121faf59, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  movementSpeed: 5
-  jumpForce: 10
+  movementSpeed: 8
+  airborneSpeed: 8
+  airborneAcceleration: 16
+  jumpHeight: 3
+  jumpGravity: 4
+  fallGravity: 5
