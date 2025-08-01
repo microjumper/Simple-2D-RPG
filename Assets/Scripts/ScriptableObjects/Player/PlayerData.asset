@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 8
   airborneSpeed: 8
-  airborneAcceleration: 16
+  airborneAcceleration: 8
   jumpHeight: 3
   jumpGravity: 4
   fallGravity: 5
