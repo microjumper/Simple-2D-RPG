@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class BackgroundRepeater : MonoBehaviour
 {
+    [Range(0f, 1f)]
+    public float parallaxFactor = 1f;
+    
     private new Camera camera;
+    private Vector3 lastCameraPosition;
     
     private BackgroundSegment backgroundSegment;
     
     private LinkedList<BackgroundSegment> segments;
-    private float cameraOffset;
-
+    
     private void Awake()
     {
         camera = Camera.main;
@@ -19,33 +22,37 @@ public class BackgroundRepeater : MonoBehaviour
 
     private void Start()
     {
-        CreateBackground();
+        lastCameraPosition = camera.transform.position;
         
-        cameraOffset = camera.transform.position.x - backgroundSegment.transform.position.x;
+        CreateBackground();
     }
 
     private void LateUpdate()
     {
-        var cameraX = camera.transform.position.x - cameraOffset;
-        
-        while (cameraX >= segments.First.Value.transform.position.x + backgroundSegment.Width)
+        var deltaMovement = camera.transform.position - lastCameraPosition;
+        transform.position += new Vector3(deltaMovement.x * parallaxFactor, deltaMovement.y * parallaxFactor, deltaMovement.z);
+        lastCameraPosition = camera.transform.position;
+
+        if (segments.First.Value.transform.position.x + backgroundSegment.Width < deltaMovement.x)
         {
             var segmentToMove = segments.First.Value;
             segments.RemoveFirst();
             segmentToMove.transform.position = new Vector3(
                 segments.Last.Value.transform.position.x + backgroundSegment.Width,
-                backgroundSegment.transform.position.y, backgroundSegment.transform.position.z);
+                segmentToMove.transform.position.y,
+                segmentToMove.transform.position.z);
             segments.AddLast(segmentToMove);
         }
-
-        while (cameraX <= segments.First.Value.transform.position.x)
+        
+        if (segments.First.Value.transform.position.x > deltaMovement.x)
         {
             var segmentToMove = segments.Last.Value;
             segments.RemoveLast();
             segmentToMove.transform.position = new Vector3(
                 segments.First.Value.transform.position.x - backgroundSegment.Width,
-                backgroundSegment.transform.position.y, backgroundSegment.transform.position.z);
-            segments.AddFirst(segmentToMove);       
+                segmentToMove.transform.position.y,
+                segmentToMove.transform.position.z);
+            segments.AddFirst(segmentToMove);
         }
     }
 
@@ -59,7 +66,7 @@ public class BackgroundRepeater : MonoBehaviour
         // aspect = (screen width / screen height)
         var cameraWidth = camera.orthographicSize * camera.aspect * 2;
         
-        var segmentsRequired = Mathf.CeilToInt(cameraWidth / backgroundSegment.Width) + 1;
+        var segmentsRequired = Mathf.CeilToInt(cameraWidth / backgroundSegment.Width) + 2;
         
         for (var i = 1; i <= segmentsRequired; i++)
         {
