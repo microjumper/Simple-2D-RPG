@@ -1,13 +1,13 @@
 using System.Linq;
 using UnityEngine;
 
-public class Repeatable : MonoBehaviour
+public class BackgroundSegment : MonoBehaviour
 {
     private SpriteRenderer[] renderers;
 
     private float? width;
     
-    public float Width => width ??= MeasureWidth(); // compute anc cache the result
+    public float Width => width ??= MeasureWidth(); // compute and cache the result
 
     private void Awake() => renderers = GetComponentsInChildren<SpriteRenderer>();
     
